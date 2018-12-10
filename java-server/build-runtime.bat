@@ -1,0 +1,1 @@
+"C:\Program Files\Java\jdk-11.0.1\bin\jlink.exe" --module-path .\out\artifacts\LioFileTransfer_jar\LioFileTransfer.jar;"C:\Program Files\Java\jdk-11.0.1\jmods" --add-modules LioFileTransfer --output ./dist --compress 2
