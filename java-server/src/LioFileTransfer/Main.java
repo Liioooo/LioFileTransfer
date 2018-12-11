@@ -6,12 +6,11 @@ import LioFileTransfer.Handlers.StaticFileHandler;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
+import java.net.*;
 
 public class Main {
 
-    private static Config config;
+    public static Config config;
     private static HttpServer server;
 
     public static void main(String[] args) {
@@ -28,7 +27,8 @@ public class Main {
             server.createContext("/", new StaticFileHandler());
             server.createContext("/api", new ApiHandler());
             server.start();
-            System.out.println("Successfully started Webserver at port" + port);
+            System.out.println("Successfully started Webserver at port " + port);
+            System.out.println("Go to the IP Address of this Computer too reach the server");
         } catch (InvalidTypeError e) {
             System.err.println("Invalid 'webserverPort' in config.json");
             System.exit(-1);
