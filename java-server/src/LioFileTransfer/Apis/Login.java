@@ -1,6 +1,9 @@
 package LioFileTransfer.Apis;
 
+import LioFileTransfer.Authentication;
 import com.google.gson.JsonObject;
+
+import java.util.HashMap;
 
 public class Login implements Api {
 
@@ -11,15 +14,25 @@ public class Login implements Api {
 
     @Override
     public boolean needsLogin() {
-        return true;
+        return false;
     }
 
     @Override
     public ApiResponse handleRequest(JsonObject requestBody) {
-        System.out.println(requestBody);
-
         JsonObject responseJson = new JsonObject();
-        responseJson.addProperty("test", "test");
-        return new ApiResponse(responseJson);
+        if(!requestBody.has("username") || !requestBody.has("password")) {
+            responseJson.addProperty("error", "argument");
+            return new ApiResponse(responseJson);
+        }
+        String token = Authentication.login(requestBody.get("username").getAsString(), requestBody.get("password").getAsString());
+        if(token == null) {
+            responseJson.addProperty("error", "invalid");
+            return new ApiResponse(responseJson);
+        }
+        responseJson.addProperty("error", "null");
+        responseJson.addProperty("auth", true);
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("Set-Cookie", "token=" + token + "; HttpOnly");
+        return new ApiResponse(responseJson, headers);
     }
 }

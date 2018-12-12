@@ -2,6 +2,7 @@ package LioFileTransfer.Handlers;
 
 import LioFileTransfer.Apis.Api;
 import LioFileTransfer.Apis.ApiResponse;
+import LioFileTransfer.Apis.ListDir;
 import LioFileTransfer.Apis.Login;
 import LioFileTransfer.Authentication;
 import com.google.gson.*;
@@ -28,6 +29,7 @@ public class ApiHandler implements HttpHandler {
     public ApiHandler() {
         apis = new HashSet<>();
         apis.add(new Login());
+        apis.add(new ListDir());
     }
 
     @Override
@@ -77,12 +79,7 @@ public class ApiHandler implements HttpHandler {
                 JsonObject responseJson = new JsonObject();
                 responseJson.addProperty("status", 100);
                 responseJson.add("response", apiResponse.getBody());
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                String response = gson.toJson(responseJson);
-                exchange.sendResponseHeaders(200, response.length());
-                OutputStream os = exchange.getResponseBody();
-                os.write(response.getBytes());
-                os.close();
+                sendData(exchange, responseJson);
                 return;
             }
         }
@@ -93,11 +90,16 @@ public class ApiHandler implements HttpHandler {
         JsonObject responseJson = new JsonObject();
         responseJson.addProperty("status", errorCode);
         responseJson.add("response", new JsonObject());
+        sendData(exchange, responseJson);
+    }
+
+    private void sendData(HttpExchange exchange, JsonObject responseJson) throws IOException{
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String response = gson.toJson(responseJson);
-        exchange.sendResponseHeaders(200, response.length());
+        byte[] responseBytes = response.getBytes();
+        exchange.sendResponseHeaders(200, responseBytes.length);
         OutputStream os = exchange.getResponseBody();
-        os.write(response.getBytes());
+        os.write(responseBytes);
         os.close();
     }
 }
