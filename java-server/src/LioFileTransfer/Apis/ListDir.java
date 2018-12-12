@@ -35,9 +35,11 @@ public class ListDir implements Api {
                     .map(f -> {
                         JsonObject file = new JsonObject();
                         file.addProperty("file", f.getFileName().toString());
+                        file.addProperty("type", f.toFile().isDirectory() ? "dir" : "file");
                         return file;
                     })
                     .forEach(jsonArray::add);
+            responseJson.addProperty("error", "null");
             responseJson.add("listing", jsonArray);
         } catch (IOException e) {
             responseJson.addProperty("error", "reading");
