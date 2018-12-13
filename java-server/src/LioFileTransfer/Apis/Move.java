@@ -1,6 +1,6 @@
 package LioFileTransfer.Apis;
 
-import LioFileTransfer.Main;
+import LioFileTransfer.Config;
 import com.google.gson.JsonObject;
 
 import java.io.File;
@@ -9,7 +9,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
 
-public class Move implements Api {
+public class Move extends Api {
+
+    public Move(Config config) {
+        super(config);
+    }
 
     @Override
     public String getApiPath() {
@@ -29,10 +33,11 @@ public class Move implements Api {
             responseJson.addProperty("error", "argument");
             return new ApiResponse(responseJson);
         }
-        File src = new File(Main.config.getConfigItemString("documentRoot") + requestBody.get("src").getAsString());
-        File dest = new File(Main.config.getConfigItemString("documentRoot") + requestBody.get("dest").getAsString() + src.getPath().substring(src.getPath().lastIndexOf("\\")));
 
-        if(new File(Main.config.getConfigItemString("documentRoot") + requestBody.get("dest").getAsString()).isFile()) {
+        File src = new File(config.getConfigItemString("documentRoot") + requestBody.get("src").getAsString());
+        File dest = new File(config.getConfigItemString("documentRoot") + requestBody.get("dest").getAsString() + src.getPath().substring(src.getPath().lastIndexOf("\\")));
+
+        if(new File(config.getConfigItemString("documentRoot") + requestBody.get("dest").getAsString()).isFile()) {
             responseJson.addProperty("error", "destIsFile");
             return new ApiResponse(responseJson);
         }
@@ -42,7 +47,7 @@ public class Move implements Api {
             return new ApiResponse(responseJson);
         }
         if(dest.exists()) {
-            responseJson.addProperty("error", "doesExists");
+            responseJson.addProperty("error", "destDoesExists");
             return new ApiResponse(responseJson);
         }
         try {

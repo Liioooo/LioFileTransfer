@@ -14,7 +14,7 @@ public class Config {
 
     private Map configMap;
 
-    Config() {
+    public Config() {
         try {
             String configStr = new String(Files.readAllBytes(Paths.get("config.json")));
             JsonObject jsonObject = new JsonParser().parse(configStr).getAsJsonObject();

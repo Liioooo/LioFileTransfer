@@ -1,6 +1,6 @@
 package LioFileTransfer.Apis;
 
-import LioFileTransfer.Main;
+import LioFileTransfer.Config;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -8,7 +8,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-public class ListDir implements Api {
+public class ListDir extends Api {
+
+    public ListDir(Config config) {
+        super(config);
+    }
 
     @Override
     public String getApiPath() {
@@ -31,7 +35,7 @@ public class ListDir implements Api {
 
         try {
             JsonArray jsonArray = new JsonArray();
-            Files.list(new File(Main.config.getConfigItemString("documentRoot") + requestBody.get("dir").getAsString()).toPath())
+            Files.list(new File(config.getConfigItemString("documentRoot") + requestBody.get("dir").getAsString()).toPath())
                     .map(f -> {
                         JsonObject file = new JsonObject();
                         file.addProperty("file", f.getFileName().toString());

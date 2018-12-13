@@ -1,12 +1,19 @@
 package LioFileTransfer.Apis;
 
+import LioFileTransfer.Config;
 import com.google.gson.JsonObject;
 
-public interface Api {
+public abstract class Api {
 
-    public String getApiPath();
+    protected Config config;
 
-    public boolean needsLogin();
+    public Api(Config config) {
+        this.config = config;
+    }
 
-    public ApiResponse handleRequest(JsonObject requestBody);
+    abstract public String getApiPath();
+
+    abstract public boolean needsLogin();
+
+    abstract public ApiResponse handleRequest(JsonObject requestBody);
 }

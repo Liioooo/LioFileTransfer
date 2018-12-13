@@ -2,6 +2,7 @@ package LioFileTransfer.Handlers;
 
 import LioFileTransfer.Apis.*;
 import LioFileTransfer.Authentication;
+import LioFileTransfer.Main;
 import com.google.gson.*;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -25,9 +26,9 @@ public class ApiHandler implements HttpHandler {
 
     public ApiHandler() {
         apis = new HashSet<>();
-        apis.add(new Login());
-        apis.add(new ListDir());
-        apis.add(new Move());
+        apis.add(new Login(Main.config));
+        apis.add(new ListDir(Main.config));
+        apis.add(new Move(Main.config));
     }
 
     @Override

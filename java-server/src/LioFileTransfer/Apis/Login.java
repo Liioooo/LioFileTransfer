@@ -1,11 +1,16 @@
 package LioFileTransfer.Apis;
 
 import LioFileTransfer.Authentication;
+import LioFileTransfer.Config;
 import com.google.gson.JsonObject;
 
 import java.util.HashMap;
 
-public class Login implements Api {
+public class Login extends Api {
+
+    public Login(Config config) {
+        super(config);
+    }
 
     @Override
     public String getApiPath() {
