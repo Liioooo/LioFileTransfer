@@ -28,10 +28,8 @@ public class ListDir extends Api {
     public ApiResponse handleRequest(JsonObject requestBody) {
         JsonObject responseJson = new JsonObject();
 
-        if(!requestBody.has("dir")) {
-            responseJson.addProperty("error", "argument");
-            return new ApiResponse(responseJson);
-        }
+        var paramCheckResult = ApiHelpers.checkParams(requestBody, "dir");
+        if(paramCheckResult != null) return paramCheckResult;
 
         try {
             JsonArray jsonArray = new JsonArray();

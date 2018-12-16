@@ -1,15 +1,13 @@
 package LioFileTransfer.Apis;
 
 import LioFileTransfer.Config;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ListDirTest {
+class CopyTest {
 
     private static Config config;
 
@@ -18,24 +16,25 @@ class ListDirTest {
         config = new Config();
     }
 
-
     @Test
     void handleRequestSuccess() {
-        var listDir = new ListDir(config);
+        var copy = new Copy(config);
         var json = new JsonObject();
-        json.addProperty("dir", "/");
-        ApiResponse response = listDir.handleRequest(json);
+        json.addProperty("src", "/test/kek");
+        json.addProperty("dest", "/test1");
+        ApiResponse response = copy.handleRequest(json);
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        System.out.println(gson.toJson(response));
+        var expected = new JsonObject();
+        expected.addProperty("error", "null");
+        assertEquals(expected, response.getBody());
     }
 
     @Test
     void handleRequestArgument() {
-        var listDir = new ListDir(config);
+        var copy = new Copy(config);
         var json = new JsonObject();
-        json.addProperty("", "/");
-        ApiResponse response = listDir.handleRequest(json);
+        json.addProperty("src", "/test/test");
+        ApiResponse response = copy.handleRequest(json);
 
         var expected = new JsonObject();
         expected.addProperty("error", "argument");

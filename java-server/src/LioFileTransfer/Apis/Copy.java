@@ -6,18 +6,16 @@ import com.google.gson.JsonObject;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Comparator;
 
-public class Move extends Api {
+public class Copy extends Api {
 
-    public Move(Config config) {
+    public Copy(Config config) {
         super(config);
     }
 
     @Override
     public String getApiPath() {
-        return "move";
+        return "copy";
     }
 
     @Override
@@ -51,27 +49,24 @@ public class Move extends Api {
         }
 
         try {
-            move(src, dest);
-            Files.walk(src.toPath())
-                    .sorted(Comparator.reverseOrder())
-                    .map(Path::toFile)
-                    .forEach(File::delete);
-
+            copy(src, dest);
             responseJson.addProperty("error", "null");
         } catch (IOException e) {
             responseJson.addProperty("error", "copy");
         }
+
         return new ApiResponse(responseJson);
+
     }
 
-    private void move(File src, File dest) throws IOException {
+    private void copy(File src, File dest) throws IOException {
         if(src.isDirectory()) {
             new File(dest.getPath()).mkdirs();
             for (File f : src.listFiles()) {
-                move(f, new File(dest.getPath() + f.getPath().substring(f.getPath().lastIndexOf("\\"))));
+                copy(f, new File(dest.getPath() + f.getPath().substring(f.getPath().lastIndexOf("\\"))));
             }
         } else {
-            Files.move(src.toPath(), dest.toPath());
+            Files.copy(src.toPath(), dest.toPath());
         }
     }
 }

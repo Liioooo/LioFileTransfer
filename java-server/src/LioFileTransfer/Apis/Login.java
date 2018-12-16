@@ -25,10 +25,10 @@ public class Login extends Api {
     @Override
     public ApiResponse handleRequest(JsonObject requestBody) {
         JsonObject responseJson = new JsonObject();
-        if(!requestBody.has("username") || !requestBody.has("password")) {
-            responseJson.addProperty("error", "argument");
-            return new ApiResponse(responseJson);
-        }
+
+        var paramCheckResult = ApiHelpers.checkParams(requestBody, "username", "password");
+        if(paramCheckResult != null) return paramCheckResult;
+
         String token = Authentication.login(requestBody.get("username").getAsString(), requestBody.get("password").getAsString());
         if(token == null) {
             responseJson.addProperty("error", "invalid");

@@ -18,26 +18,26 @@ class MoveTest {
 
     @Test
     void handleRequestSuccess() {
-        Move move = new Move(config);
-        JsonObject json = new JsonObject();
+        var move = new Move(config);
+        var json = new JsonObject();
         json.addProperty("src", "/test/kek");
         json.addProperty("dest", "/test1");
         ApiResponse response = move.handleRequest(json);
 
-        JsonObject excpected = new JsonObject();
-        excpected.addProperty("error", "null");
-        assertEquals(excpected, response.getBody());
+        var expected = new JsonObject();
+        expected.addProperty("error", "null");
+        assertEquals(expected, response.getBody());
     }
 
     @Test
     void handleRequestArgument() {
-        ListDir listDir = new ListDir(config);
-        JsonObject json = new JsonObject();
+        var move = new Move(config);
+        var json = new JsonObject();
         json.addProperty("src", "/test/test");
-        ApiResponse response = listDir.handleRequest(json);
+        ApiResponse response = move.handleRequest(json);
 
-        JsonObject excpected = new JsonObject();
-        excpected.addProperty("error", "argument");
-        assertEquals(excpected, response.getBody());
+        var expected = new JsonObject();
+        expected.addProperty("error", "argument");
+        assertEquals(expected, response.getBody());
     }
 }
