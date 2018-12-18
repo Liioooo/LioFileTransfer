@@ -31,6 +31,7 @@ public class ApiHandler implements HttpHandler {
         apis.add(new Move(Main.config));
         apis.add(new Copy(Main.config));
         apis.add(new Delete(Main.config));
+        apis.add(new Create(Main.config));
     }
 
     @Override
