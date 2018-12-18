@@ -2,6 +2,8 @@ package LioFileTransfer.Apis;
 
 import com.google.gson.JsonObject;
 
+import java.io.File;
+
 public class ApiHelpers {
 
     static public ApiResponse checkParams(JsonObject request, String... requiredArgs) {
