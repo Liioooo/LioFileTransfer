@@ -26,17 +26,8 @@ public class StaticFileHandler implements HttpHandler {
             os.write(file);
             os.close();
         } catch (IOException e) {
-            send404(exchange, requestPath);
+            HandlerHelpers.send404(exchange, requestPath);
         }
-    }
-
-    private void send404(HttpExchange exchange, String requestPath) throws IOException {
-        exchange.getResponseHeaders().set("Content-Type", "text/plain");
-        String response = "404 File not found!\n" + requestPath + " was not found";
-        exchange.sendResponseHeaders(404, response.length());
-        OutputStream os = exchange.getResponseBody();
-        os.write(response.getBytes());
-        os.close();
     }
 
     private String getContentType(String requestPath) {

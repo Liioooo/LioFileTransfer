@@ -41,12 +41,12 @@ public class ApiHandler implements HttpHandler {
         exchange.getResponseHeaders().set("Content-Type", "application/json");
 
         if(!exchange.getRequestMethod().equals("POST")) {
-            sendError(exchange, 101);
+            HandlerHelpers.sendError(exchange, 101);
             return;
         }
 
         if(!exchange.getResponseHeaders().getFirst("Content-Type").equals("application/json")) {
-            sendError(exchange, 102);
+            HandlerHelpers.sendError(exchange, 102);
             return;
         }
 
@@ -61,7 +61,7 @@ public class ApiHandler implements HttpHandler {
                         cookies.put(cookieParts[0], cookieParts[1]);
                     }
                     if(!cookies.containsKey("token") || !Authentication.isLoggedIn(cookies.get("token"))) {
-                        sendError(exchange, 110);
+                        HandlerHelpers.sendError(exchange, 110);
                         return;
                     }
                 }
@@ -71,7 +71,7 @@ public class ApiHandler implements HttpHandler {
                 try {
                     jsonObject = new JsonParser().parse(requestString).getAsJsonObject();
                 } catch (JsonSyntaxException e) {
-                    sendError(exchange, 104);
+                    HandlerHelpers.sendError(exchange, 104);
                     return;
                 }
 
@@ -82,27 +82,10 @@ public class ApiHandler implements HttpHandler {
                 JsonObject responseJson = new JsonObject();
                 responseJson.addProperty("status", 100);
                 responseJson.add("response", apiResponse.getBody());
-                sendData(exchange, responseJson);
+                HandlerHelpers.sendData(exchange, responseJson);
                 return;
             }
         }
-        sendError(exchange, 103);
-    }
-
-    private void sendError(HttpExchange exchange, int errorCode) throws IOException {
-        JsonObject responseJson = new JsonObject();
-        responseJson.addProperty("status", errorCode);
-        responseJson.add("response", new JsonObject());
-        sendData(exchange, responseJson);
-    }
-
-    private void sendData(HttpExchange exchange, JsonObject responseJson) throws IOException{
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String response = gson.toJson(responseJson);
-        byte[] responseBytes = response.getBytes();
-        exchange.sendResponseHeaders(200, responseBytes.length);
-        OutputStream os = exchange.getResponseBody();
-        os.write(responseBytes);
-        os.close();
+        HandlerHelpers.sendError(exchange, 103);
     }
 }
