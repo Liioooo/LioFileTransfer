@@ -1,0 +1,23 @@
+<section>
+
+  <h1>LioFileTransfer</h1>
+
+  <form [formGroup]="loginForm" (submit)="handleSubmitClick()">
+    <div class="formGroup">
+      <input placeholder="Username" id="username" name="username" formControlName="username" type="text">
+      <span class="errors" *ngIf="submitted && form.username.errors && form.username.errors.required">Username is required</span>
+    </div>
+
+    <div class="formGroup">
+      <input placeholder="Password" id="password" name="password" formControlName="password" type="password">
+      <div class="errors" *ngIf="submitted && form.password.errors">
+        <span class="errors" *ngIf="form.password.errors.invalidPW">Invalid Username or Password</span>
+        <span class="errors" *ngIf="form.password.errors.required">Password is required</span>
+      </div>
+    </div>
+    <button>Login</button>
+  </form>
+</section>
+<footer>
+  <p>&#9400; 2018; Liiiooo</p>
+</footer>

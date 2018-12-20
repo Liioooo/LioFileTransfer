@@ -37,7 +37,7 @@ public class Login extends Api {
         responseJson.addProperty("error", "null");
         responseJson.addProperty("auth", true);
         HashMap<String, String> headers = new HashMap<>();
-        headers.put("Set-Cookie", "token=" + token + "; HttpOnly");
+        headers.put("Set-Cookie", "token=" + token + "; HttpOnly; Path=/");
         return new ApiResponse(responseJson, headers);
     }
 }
