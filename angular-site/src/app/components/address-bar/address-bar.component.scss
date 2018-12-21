@@ -1,0 +1,48 @@
+@import "../../../variables";
+
+section {
+  width: 100%;
+  height: 52px;
+  background-color: $blue;
+  position: sticky;
+
+  display: grid;
+  grid-template-columns: 50px 50px auto;
+
+  i {
+    width: 35px;
+    height: 35px;
+    margin: 7.5px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 35px;
+    align-self: center;
+    border-radius: 50%;
+    color: white;
+    user-select: none;
+
+    &:hover {
+      background-color: transparentize($grey, .5);
+      cursor: default;
+    }
+
+    &:active {
+      background-color: transparentize($grey, .2);
+    }
+  }
+
+  input {
+    border-radius: 10px;
+    border: none;
+    margin: 10px;
+    padding: 2px 5px;
+    background-color: darken(#ffffff, 5);
+    color: lighten(#000000, 30);
+
+    &:focus {
+      box-shadow: 0 0 0 2pt $grey;
+      background-color: white;
+      color: #000000;
+    }
+  }
+}

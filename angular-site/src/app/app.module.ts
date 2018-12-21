@@ -7,12 +7,14 @@ import { LoginComponent } from './components/login/login.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { FileExplorerComponent } from './components/file-explorer/file-explorer.component';
+import { AddressBarComponent } from './components/address-bar/address-bar.component';
 
 @NgModule({
   declarations: [
       AppComponent,
       LoginComponent,
-      FileExplorerComponent
+      FileExplorerComponent,
+      AddressBarComponent
   ],
   imports: [
       BrowserModule,
