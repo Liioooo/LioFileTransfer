@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-address-bar',
@@ -7,9 +7,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddressBarComponent implements OnInit {
 
-  constructor() { }
+    @Input()
+    public currentDir: string;
 
-  ngOnInit() {
-  }
+    @Output()
+    public pathInBarChange: EventEmitter<string> = new EventEmitter<string>();
+
+    @Output()
+    public clickedForwardBackward: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+    constructor() { }
+
+    ngOnInit() {
+    }
+
+    public pathInBarChanged() {
+      this.pathInBarChange.emit(this.currentDir);
+    }
+
+    public clickedForward() {
+      this.clickedForwardBackward.emit(true);
+    }
+
+    public clickedBackwards() {
+      this.clickedForwardBackward.emit(false);
+    }
 
 }

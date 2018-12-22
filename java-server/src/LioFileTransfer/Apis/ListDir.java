@@ -38,6 +38,7 @@ public class ListDir extends Api {
                         JsonObject file = new JsonObject();
                         file.addProperty("file", f.getFileName().toString());
                         file.addProperty("type", f.toFile().isDirectory() ? "dir" : "file");
+                        file.addProperty("size", f.toFile().length());
                         return file;
                     })
                     .forEach(jsonArray::add);

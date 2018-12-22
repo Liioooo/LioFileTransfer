@@ -3,16 +3,17 @@ import {HttpClient} from '@angular/common/http';
 import {map, tap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {RequestData} from '../models/RequestData';
+import {Router} from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserService {
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private router: Router) { }
 
 
-    login(username: String, password: String): Observable<Object> {
+    login(username: string, password: string): Observable<Object> {
         return this.http.post<RequestData>('/api/login', {
             username: username,
             password: password
@@ -30,11 +31,15 @@ export class UserService {
         sessionStorage.setItem('loggedIn', 'true');
     }
 
-    private static setUserLoggedOut() {
+    public setUserLoggedOut() {
         sessionStorage.removeItem('loggedIn');
     }
 
     public isLoggedIn(): boolean {
-        return sessionStorage.getItem('loggedIn') === 'true';
+        let isLoggedIn = sessionStorage.getItem('loggedIn') === 'true';
+        if (!isLoggedIn && this.router.url !== '/login') {
+            this.router.navigate(['/login']);
+        }
+        return isLoggedIn;
     }
 }

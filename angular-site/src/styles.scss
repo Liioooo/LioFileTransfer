@@ -31,3 +31,11 @@ textarea:focus,
 button:focus {
   outline: none;
 }
+
+.material-icons-outline {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}

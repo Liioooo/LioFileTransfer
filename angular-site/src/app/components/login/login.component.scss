@@ -37,9 +37,10 @@ main {
       border-radius: 2px;
       box-sizing: border-box;
       width: 100%;
+      color: $grey;
 
       &:focus {
-        box-shadow: $grey 2px 2px 20px;
+        box-shadow: 0 0 0 1pt $grey;
       }
     }
 

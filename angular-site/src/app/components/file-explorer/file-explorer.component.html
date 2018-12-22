@@ -1,4 +1,5 @@
 <main>
-    <app-address-bar></app-address-bar>
+    <app-address-bar (pathInBarChange)="pathInBarChanged($event)" (clickedForwardBackward)="clickedForwardBackward($event)" [currentDir]="currentDir"></app-address-bar>
+    <app-file-list [currentDir]=currentDir (selectedNewDir)="selectedNewDir($event)"></app-file-list>
 </main>
 

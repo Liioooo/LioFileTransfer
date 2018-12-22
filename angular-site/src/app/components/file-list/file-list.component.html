@@ -1,0 +1,3 @@
+<section>
+  <app-file-entry *ngFor="let file of (files | async)" [file]=file (selectedFile)="selectedFile(file)" (showFileMenu)="showFileMenu(file)"></app-file-entry>
+</section>
