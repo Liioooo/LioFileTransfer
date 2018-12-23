@@ -1,0 +1,16 @@
+<div (click)="closeModalClickedOutside($event)" id="modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Deleting File</h2>
+      <i (click)="closeModalCancel()" class="material-icons">cancel</i>
+    </div>
+    <div class="modal-body">
+      <p>Do you really want to delete the file or directory <b>"{{file.file}}" ?</b></p>
+      <p *ngIf="errorDeletingFile" class="error">Error: Cannot delete file!</p>
+    </div>
+    <div class="modal-footer">
+      <button (click)="closeModalCancel()">Cancel</button>
+      <button (click)="closeModalDelete()">Delete</button>
+    </div>
+  </div>
+</div>

@@ -29,4 +29,27 @@ export class FileService {
       dir: dir
     });
   }
+
+  public rename(file: string, newName: string) {
+      return this.sendRequest('/api/rename', {
+          toRename: file,
+          newName: newName
+      });
+  }
+
+    public delete(file: string) {
+        return this.sendRequest('/api/delete', {
+            toDelete: file
+        });
+    }
+
+  public downloadFile(file: string) {
+      let element = document.createElement('a');
+      element.setAttribute('href', '/download' + file);
+      element.setAttribute('download', '');
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+  }
 }

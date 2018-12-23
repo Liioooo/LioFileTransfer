@@ -1,4 +1,4 @@
-<div (click)="singleClicked()" (dblclick)="doubleClicked()">
+<div (click)="singleClicked($event)" (dblclick)="doubleClicked()">
   <i *ngIf="file.type === 'dir'" class="material-icons">folder</i>
   <i *ngIf="file.type === 'file'" class="material-icons">insert_drive_file</i>
   <p>{{file.file}}</p>

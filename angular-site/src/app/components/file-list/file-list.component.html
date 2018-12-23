@@ -1,3 +1,29 @@
-<section>
-  <app-file-entry *ngFor="let file of (files | async)" [file]=file (selectedFile)="selectedFile(file)" (showFileMenu)="showFileMenu(file)"></app-file-entry>
+<section (click)="clickedOnFileList()" [style.height]="windowHeight - 67 + 'px'">
+  <p *ngIf="(files | async)?.length === 0">This directory is empty!</p>
+  <p *ngIf="showDirError">Error reading directory, it may not exist!</p>
+  <article *ngIf="(files | async)?.length !== 0">
+    <app-file-entry *ngFor="let file of (files | async)"
+                    [file]=file (selectedFile)="selectedFile(file)"
+                    (showFileMenu)="showFileMenu(file, $event)">
+    </app-file-entry>
+  </article>
+  <app-file-options *ngIf="showingFileMenu"
+                    [file]="fileToShowOptions"
+                    [mousePosition]="mousePosition"
+                    [currentDir]="currentDir"
+                    (openDir)="selectedFile($event)"
+                    (showRenameModal)="showRenameModal($event)"
+                    (showDeleteModal)="showDeleteModal($event)">
+  </app-file-options>
+  <app-file-rename-modal *ngIf="showingRenameModal"
+                         [file]="fileToShowOptions"
+                         [currentDir]="currentDir"
+                         (closingModal)="modalClosing($event)">
+  </app-file-rename-modal>
+  <app-delete-file-modal *ngIf="showingDeleteModal"
+                         [file]="fileToShowOptions"
+                         [currentDir]="currentDir"
+                         (closingModal)="modalClosing($event)">
+  </app-delete-file-modal>
 </section>
+

@@ -10,6 +10,9 @@ import { FileExplorerComponent } from './components/file-explorer/file-explorer.
 import { AddressBarComponent } from './components/address-bar/address-bar.component';
 import { FileListComponent } from './components/file-list/file-list.component';
 import { FileEntryComponent } from './components/file-entry/file-entry.component';
+import { FileOptionsComponent } from './components/file-options/file-options.component';
+import { FileRenameModalComponent } from './components/file-rename-modal/file-rename-modal.component';
+import { DeleteFileModalComponent } from './components/delete-file-modal/delete-file-modal.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,10 @@ import { FileEntryComponent } from './components/file-entry/file-entry.component
       FileExplorerComponent,
       AddressBarComponent,
       FileListComponent,
-      FileEntryComponent
+      FileEntryComponent,
+      FileOptionsComponent,
+      FileRenameModalComponent,
+      DeleteFileModalComponent
   ],
   imports: [
       BrowserModule,

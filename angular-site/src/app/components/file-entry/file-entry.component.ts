@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {MousePosition} from '../../models/MousePosition';
 
 @Component({
   selector: 'app-file-entry',
@@ -11,7 +12,7 @@ export class FileEntryComponent implements OnInit {
     public selectedFile: EventEmitter<any> = new EventEmitter();
 
     @Output()
-    public showFileMenu: EventEmitter<any> = new EventEmitter();
+    public showFileMenu: EventEmitter<MousePosition> = new EventEmitter<MousePosition>();
 
     @Input()
     public file: FileEntry;
@@ -24,11 +25,14 @@ export class FileEntryComponent implements OnInit {
     ngOnInit() {
     }
 
-    singleClicked() {
+    singleClicked(mouseEvent: MouseEvent) {
         this.preventSingleClick = false;
         this.singleClickTimeout = setTimeout(() => {
             if (!this.preventSingleClick) {
-              this.showFileMenu.emit();
+                this.showFileMenu.emit({
+                    x: mouseEvent.clientX,
+                    y: mouseEvent.clientY
+                });
             }
         }, 200);
     }

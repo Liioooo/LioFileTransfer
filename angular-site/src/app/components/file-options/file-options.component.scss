@@ -1,0 +1,30 @@
+@import "../../../variables";
+
+div {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    width: 110px;
+    border-radius: 2px;
+
+    :first-child {
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    :last-child {
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+
+    button {
+        background-color: lighten($grey, 60);
+        border: none;
+        text-align: left;
+        padding: 2px;
+
+        &:hover {
+            background-color: lighten($grey, 40);
+        }
+    }
+}

@@ -34,9 +34,12 @@ public class Rename extends Api {
             responseJson.addProperty("error", "doesntExists");
             return new ApiResponse(responseJson);
         }
-
-        file.renameTo(new File(config.getConfigItemString("documentRoot") + requestBody.get("newName").getAsString()));
-        responseJson.addProperty("error", "null");
+        boolean success = file.renameTo(new File(config.getConfigItemString("documentRoot") + requestBody.get("newName").getAsString()));
+        if(success) {
+            responseJson.addProperty("error", "null");
+        } else {
+            responseJson.addProperty("error", "renaming");
+        }
 
         return new ApiResponse(responseJson);
     }

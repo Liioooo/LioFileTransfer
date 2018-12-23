@@ -1,0 +1,8 @@
+<div [style.left]="mousePosition.x + 'px'" [style.top]="mousePosition.y + 'px'">
+  <button *ngIf="file.type === 'dir'" (click)="openDirClick()">Open</button>
+  <button *ngIf="file.type === 'file'" (click)="downloadFileClick()">Download</button>
+  <button (click)="renameFileClick()">Rename</button>
+  <button>Copy</button>
+  <button>Cut</button>
+  <button (click)="deleteFileClick()">Delete</button>
+</div>
