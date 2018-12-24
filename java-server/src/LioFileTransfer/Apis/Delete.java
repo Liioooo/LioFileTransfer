@@ -45,12 +45,15 @@ public class Delete extends Api {
                         .sorted(Comparator.reverseOrder())
                         .map(Path::toFile)
                         .forEach(File::delete);
+                Thread.sleep(50);
             } else {
                 file.delete();
             }
             responseJson.addProperty("error", "null");
         } catch (IOException e) {
             responseJson.addProperty("error", "deleting");
+        } catch (InterruptedException e) {
+            responseJson.addProperty("error", "null");
         }
 
         return new ApiResponse(responseJson);
