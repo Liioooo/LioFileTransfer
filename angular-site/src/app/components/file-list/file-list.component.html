@@ -1,7 +1,7 @@
-<section (click)="clickedOnFileList()" [style.height]="windowHeight - 67 + 'px'">
+<section class="clickTargetDirOptions" (click)="clickedOnFileList($event)" [style.height]="windowHeight - 67 + 'px'">
   <p *ngIf="(files | async)?.length === 0">This directory is empty!</p>
   <p *ngIf="showDirError">Error reading directory, it may not exist!</p>
-  <article *ngIf="(files | async)?.length !== 0">
+  <article class="clickTargetDirOptions" *ngIf="(files | async)?.length !== 0">
     <app-file-entry *ngFor="let file of (files | async)"
                     [file]=file (selectedFile)="selectedFile(file)"
                     (showFileMenu)="showFileMenu(file, $event)">
@@ -15,6 +15,11 @@
                     (showRenameModal)="showRenameModal($event)"
                     (showDeleteModal)="showDeleteModal($event)">
   </app-file-options>
+  <app-dir-options *ngIf="showingDirMenu"
+                    [file]="fileToShowOptions"
+                    [mousePosition]="mousePosition"
+                    [currentDir]="currentDir">
+  </app-dir-options>
   <app-file-rename-modal *ngIf="showingRenameModal"
                          [file]="fileToShowOptions"
                          [currentDir]="currentDir"

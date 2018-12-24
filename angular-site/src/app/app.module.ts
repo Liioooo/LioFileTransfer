@@ -13,6 +13,7 @@ import { FileEntryComponent } from './components/file-entry/file-entry.component
 import { FileOptionsComponent } from './components/file-options/file-options.component';
 import { FileRenameModalComponent } from './components/file-rename-modal/file-rename-modal.component';
 import { DeleteFileModalComponent } from './components/delete-file-modal/delete-file-modal.component';
+import { DirOptionsComponent } from './components/dir-options/dir-options.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { DeleteFileModalComponent } from './components/delete-file-modal/delete-
       FileEntryComponent,
       FileOptionsComponent,
       FileRenameModalComponent,
-      DeleteFileModalComponent
+      DeleteFileModalComponent,
+      DirOptionsComponent
   ],
   imports: [
       BrowserModule,

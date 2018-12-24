@@ -3,6 +3,7 @@ import {Observable} from 'rxjs';
 import {FileService} from '../../services/file.service';
 import {map, tap} from 'rxjs/operators';
 import {MousePosition} from '../../models/MousePosition';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 @Component({
   selector: 'app-file-list',
@@ -20,8 +21,9 @@ export class FileListComponent implements OnInit, OnChanges {
     files: Observable<ListDirResponse>;
 
     public showingFileMenu = false;
+    public showingDirMenu = false;
     public showingRenameModal = false;
-    public showingDeleteModal = false
+    public showingDeleteModal = false;
     public fileToShowOptions: FileEntry;
     public mousePosition: MousePosition;
     public showDirError = false;
@@ -61,13 +63,31 @@ export class FileListComponent implements OnInit, OnChanges {
     }
 
     public showFileMenu(file: FileEntry, mousePosition: MousePosition) {
+        this.showingDirMenu = false;
         this.showingFileMenu = true;
         this.fileToShowOptions = file;
         this.mousePosition = mousePosition;
     }
 
-    public clickedOnFileList() {
+    public clickedOnFileList(mouseEvent: MouseEvent) {
         this.showingFileMenu = false;
+        let showingDirMenu = false;
+        const targets = document.getElementsByClassName('clickTargetDirOptions');
+        for (let i = 0; i < targets.length; i++) {
+            if (mouseEvent.target === targets[i]) showingDirMenu = true;
+        }
+        if(showingDirMenu) {
+            this.showingDirMenu = true;
+            this.fileToShowOptions = {
+                file: this.currentDir,
+                type: 'dir',
+                size: 0
+            };
+            this.mousePosition = {
+                x: mouseEvent.clientX,
+                y: mouseEvent.clientY
+            };
+        }
     }
 
     public showRenameModal(file: FileEntry) {
