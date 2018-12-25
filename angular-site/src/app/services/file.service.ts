@@ -43,6 +43,12 @@ export class FileService {
         });
     }
 
+    public create(file: string) {
+      return this.sendRequest('/api/create', {
+          toCreate: file
+      });
+    }
+
   public downloadFile(file: string) {
       let element = document.createElement('a');
       element.setAttribute('href', '/download' + file);

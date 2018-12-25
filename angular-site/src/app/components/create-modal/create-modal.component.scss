@@ -1,0 +1,91 @@
+@import "../../../variables";
+
+.modal {
+    display: block;
+    position: fixed;
+    z-index: 10;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: transparentize(lighten($grey, 50), .4);
+
+    .modal-content {
+        margin: auto;
+        width: 80%;
+
+        .modal-header {
+            background-color: $blue;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            padding: 2px 16px;
+            display: grid;
+            grid-template-columns: auto 50px;
+
+            h2 {
+                margin: 10px 0;
+                color: darken($grey, 20);
+            }
+
+            i {
+                text-align: center;
+                align-self: center;
+                font-size: 25pt;
+                user-select: none;
+                color: darken($grey, 10);
+                cursor: pointer;
+
+                &:hover {
+                    color: darken($grey, 20);
+                }
+            }
+        }
+
+        .modal-body {
+            background-color: lighten($grey, 20);
+            padding: 20px;
+
+            input {
+                width: 100%;
+                border: none;
+                border-radius: 10px;
+                background-color: white;
+                color: darken($grey, 20);
+                padding: 4px;
+
+                &:focus {
+                    box-shadow: 0 0 0 1pt $grey;
+                }
+            }
+
+            p {
+                margin-bottom: 0;
+                color: $red;
+            }
+        }
+
+        .modal-footer {
+            width: 100%;
+            background-color: $blue;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            padding: 2px 16px;
+            text-align: right;
+
+            button {
+                border: none;
+                background-color: lighten($grey, 60);
+                padding: 5px 15px;
+                margin: 5px;
+                border-radius: 5px;
+
+                &:hover {
+                    background-color: lighten($grey, 40);
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}

@@ -14,6 +14,9 @@ export class AddressBarComponent implements OnInit {
     public pathInBarChange: EventEmitter<string> = new EventEmitter<string>();
 
     @Output()
+    public reload: EventEmitter<any> = new EventEmitter<any>();
+
+    @Output()
     public clickedForwardBackward: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     constructor() { }
@@ -31,6 +34,10 @@ export class AddressBarComponent implements OnInit {
 
     public clickedBackwards() {
       this.clickedForwardBackward.emit(false);
+    }
+
+    public reloadClicked() {
+        this.reload.emit();
     }
 
 }

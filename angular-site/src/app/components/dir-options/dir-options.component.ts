@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MousePosition} from '../../models/MousePosition';
 
 @Component({
@@ -7,6 +7,12 @@ import {MousePosition} from '../../models/MousePosition';
   styleUrls: ['./dir-options.component.scss']
 })
 export class DirOptionsComponent implements OnInit {
+
+    @Output()
+    public reloadFiles: EventEmitter<any> = new EventEmitter<any>();
+
+    @Output()
+    public createDirFile: EventEmitter<any> = new EventEmitter<any>();
 
     @Input()
     public file: FileEntry;
@@ -22,4 +28,11 @@ export class DirOptionsComponent implements OnInit {
     ngOnInit() {
     }
 
+    reloadFilesClicked() {
+        this.reloadFiles.emit();
+    }
+
+    newDirFileClicked() {
+        this.createDirFile.emit();
+    }
 }

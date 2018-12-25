@@ -4,6 +4,7 @@ import {FileService} from '../../services/file.service';
 import {map, tap} from 'rxjs/operators';
 import {MousePosition} from '../../models/MousePosition';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-file-list',
@@ -18,19 +19,25 @@ export class FileListComponent implements OnInit, OnChanges {
     @Input()
     currentDir: string;
 
+    @Input()
+    reloadRequested: boolean;
+
     files: Observable<ListDirResponse>;
 
     public showingFileMenu = false;
     public showingDirMenu = false;
+
     public showingRenameModal = false;
     public showingDeleteModal = false;
+    public showingCreateModal = false;
+
     public fileToShowOptions: FileEntry;
     public mousePosition: MousePosition;
     public showDirError = false;
 
     public windowHeight: number;
 
-    constructor(private filesService: FileService) { }
+    constructor(private filesService: FileService, private title: Title) { }
 
     ngOnInit() {
         this.mapFiles();
@@ -38,20 +45,17 @@ export class FileListComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-      if(changes['currentDir']) {
+      if(changes['currentDir'] || changes['reloadRequested']) {
           this.mapFiles();
       }
     }
 
     private mapFiles() {
+        this.title.setTitle(this.currentDir);
+        this.showingDirMenu = false;
+        this.showingFileMenu = false;
         this.files = this.filesService.listDir(this.currentDir).pipe(
-          tap(data => {
-             if(data['error'] === 'reading') {
-                 this.showDirError = true;
-             } else {
-                 this.showDirError = false;
-             }
-          }),
+          tap(data => this.showDirError = (data['error'] === 'reading')),
           map(data => data['listing'])
         );
     }
@@ -64,19 +68,20 @@ export class FileListComponent implements OnInit, OnChanges {
 
     public showFileMenu(file: FileEntry, mousePosition: MousePosition) {
         this.showingDirMenu = false;
-        this.showingFileMenu = true;
         this.fileToShowOptions = file;
         this.mousePosition = mousePosition;
+        this.showingFileMenu = true;
     }
 
     public clickedOnFileList(mouseEvent: MouseEvent) {
-        this.showingFileMenu = false;
+        mouseEvent.preventDefault();
         let showingDirMenu = false;
         const targets = document.getElementsByClassName('clickTargetDirOptions');
         for (let i = 0; i < targets.length; i++) {
             if (mouseEvent.target === targets[i]) showingDirMenu = true;
         }
         if(showingDirMenu) {
+            this.showingFileMenu = false;
             this.showingDirMenu = true;
             this.fileToShowOptions = {
                 file: this.currentDir,
@@ -90,6 +95,11 @@ export class FileListComponent implements OnInit, OnChanges {
         }
     }
 
+    hideAllMenus() {
+        this.showingFileMenu = false;
+        this.showingDirMenu = false;
+    }
+
     public showRenameModal(file: FileEntry) {
         this.showingRenameModal = true;
         this.fileToShowOptions = file;
@@ -100,12 +110,21 @@ export class FileListComponent implements OnInit, OnChanges {
         this.fileToShowOptions = file;
     }
 
+    public showCreateModal() {
+        this.showingCreateModal = true;
+
+    }
+
     public modalClosing(reload: boolean) {
         this.showingRenameModal = false;
         this.showingDeleteModal = false;
+        this.showingCreateModal = false;
         if(reload) {
             this.mapFiles();
         }
+    }
 
+    public reloadFiles() {
+        this.mapFiles();
     }
 }

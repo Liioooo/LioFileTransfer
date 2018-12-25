@@ -1,0 +1,15 @@
+<div (click)="closeModalClickedOutside($event)" id="modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Create File or Directory</h2>
+      <i (click)="closeModalCancel()" class="material-icons">cancel</i>
+    </div>
+    <div class="modal-body">
+      <input type="text" spellcheck="false" [(ngModel)]="name">
+      <p *ngIf="errorCreating">Error: Cannot create File or Directory!</p>
+    </div>
+    <div class="modal-footer">
+      <button (click)="closeModalSave()">Save</button>
+    </div>
+  </div>
+</div>

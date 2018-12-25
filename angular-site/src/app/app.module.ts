@@ -14,6 +14,7 @@ import { FileOptionsComponent } from './components/file-options/file-options.com
 import { FileRenameModalComponent } from './components/file-rename-modal/file-rename-modal.component';
 import { DeleteFileModalComponent } from './components/delete-file-modal/delete-file-modal.component';
 import { DirOptionsComponent } from './components/dir-options/dir-options.component';
+import { CreateModalComponent } from './components/create-modal/create-modal.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { DirOptionsComponent } from './components/dir-options/dir-options.compon
       FileOptionsComponent,
       FileRenameModalComponent,
       DeleteFileModalComponent,
-      DirOptionsComponent
+      DirOptionsComponent,
+      CreateModalComponent
   ],
   imports: [
       BrowserModule,

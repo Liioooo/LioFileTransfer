@@ -12,6 +12,8 @@ export class FileExplorerComponent implements OnInit {
   private history: Array<string> = [];
   private currentHistoryPos: number = 0;
 
+  public relaodRequestForListFiles = true;
+
   constructor(private title: Title) {
     this.currentDir = '/';
   }
@@ -23,15 +25,17 @@ export class FileExplorerComponent implements OnInit {
 
   public pathInBarChanged(newDir: string) {
       this.currentDir = newDir;
-      this.title.setTitle(this.currentDir);
       this.currentHistoryPos++;
       this.history[this.currentHistoryPos] = this.currentDir;
+  }
+
+  public reloadFiles() {
+      this.relaodRequestForListFiles = !this.relaodRequestForListFiles;
   }
 
   public selectedNewDir(newDir: string) {
       this.currentDir = this.currentDir + '/' + newDir;
       this.currentDir = this.currentDir.replace('//', '/');
-      this.title.setTitle(this.currentDir);
       this.currentHistoryPos++;
       this.history[this.currentHistoryPos] = this.currentDir;
   }

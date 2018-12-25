@@ -2,38 +2,35 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FileService} from '../../services/file.service';
 
 @Component({
-    selector: 'app-delete-file-modal',
-    templateUrl: './delete-file-modal.component.html',
-    styleUrls: ['./delete-file-modal.component.scss']
+  selector: 'app-create-modal',
+  templateUrl: './create-modal.component.html',
+  styleUrls: ['./create-modal.component.scss']
 })
-export class DeleteFileModalComponent implements OnInit {
+export class CreateModalComponent implements OnInit {
+
 
     @Output()
     public closingModal: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     @Input()
-    public file: FileEntry;
-
-    @Input()
     public currentDir: string;
 
-    public newName: string;
-    public errorDeletingFile = false;
+    public name: string;
+    public errorCreating = false;
 
     constructor(private filesService: FileService) { }
 
     ngOnInit() {
-        this.newName = this.file.file;
     }
 
-    closeModalDelete() {
-        let toDelete = (this.currentDir + '/' + this.file.file).replace('//', '/');
-        this.filesService.delete(toDelete).subscribe(data => {
+    closeModalSave() {
+        let _name = (this.currentDir + '/' + this.name).replace('//', '/');
+        this.filesService.create(_name).subscribe(data => {
             if(data['error'] === 'null') {
-                this.errorDeletingFile = false;
+                this.errorCreating = false;
                 this.closingModal.emit(true);
             } else {
-                this.errorDeletingFile = true;
+                this.errorCreating = true;
             }
         });
     }
@@ -41,13 +38,13 @@ export class DeleteFileModalComponent implements OnInit {
     closeModalClickedOutside(event: MouseEvent) {
         if(event.target == document.getElementById('modal')) {
             this.closingModal.emit(false);
-            this.errorDeletingFile = false;
+            this.errorCreating = false;
         }
     }
 
     closeModalCancel() {
         this.closingModal.emit(false);
-        this.errorDeletingFile = false;
+        this.errorCreating = false;
     }
 
 }

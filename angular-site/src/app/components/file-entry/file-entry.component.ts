@@ -17,29 +17,20 @@ export class FileEntryComponent implements OnInit {
     @Input()
     public file: FileEntry;
 
-    private preventSingleClick = true;
-    private singleClickTimeout;
-
     constructor() { }
 
     ngOnInit() {
     }
 
-    singleClicked(mouseEvent: MouseEvent) {
-        this.preventSingleClick = false;
-        this.singleClickTimeout = setTimeout(() => {
-            if (!this.preventSingleClick) {
-                this.showFileMenu.emit({
-                    x: mouseEvent.clientX,
-                    y: mouseEvent.clientY
-                });
-            }
-        }, 200);
+    showContextMenu(mouseEvent: MouseEvent) {
+        mouseEvent.preventDefault();
+        this.showFileMenu.emit({
+            x: mouseEvent.clientX,
+            y: mouseEvent.clientY
+        });
     }
 
-    doubleClicked() {
-        this.preventSingleClick = true;
-        clearTimeout(this.singleClickTimeout);
+    open() {
         this.selectedFile.emit();
     }
 

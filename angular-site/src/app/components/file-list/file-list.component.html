@@ -1,9 +1,10 @@
-<section class="clickTargetDirOptions" (click)="clickedOnFileList($event)" [style.height]="windowHeight - 67 + 'px'">
+<section class="clickTargetDirOptions" (click)="hideAllMenus()" (contextmenu)="clickedOnFileList($event)" [style.height]="windowHeight - 67 + 'px'">
   <p *ngIf="(files | async)?.length === 0">This directory is empty!</p>
   <p *ngIf="showDirError">Error reading directory, it may not exist!</p>
   <article class="clickTargetDirOptions" *ngIf="(files | async)?.length !== 0">
     <app-file-entry *ngFor="let file of (files | async)"
-                    [file]=file (selectedFile)="selectedFile(file)"
+                    [file]=file
+                    (selectedFile)="selectedFile(file)"
                     (showFileMenu)="showFileMenu(file, $event)">
     </app-file-entry>
   </article>
@@ -18,7 +19,9 @@
   <app-dir-options *ngIf="showingDirMenu"
                     [file]="fileToShowOptions"
                     [mousePosition]="mousePosition"
-                    [currentDir]="currentDir">
+                    [currentDir]="currentDir"
+                    (reloadFiles)="reloadFiles()"
+                    (createDirFile)="showCreateModal()">
   </app-dir-options>
   <app-file-rename-modal *ngIf="showingRenameModal"
                          [file]="fileToShowOptions"
@@ -30,5 +33,9 @@
                          [currentDir]="currentDir"
                          (closingModal)="modalClosing($event)">
   </app-delete-file-modal>
+  <app-create-modal *ngIf="showingCreateModal"
+                    [currentDir]="currentDir"
+                    (closingModal)="modalClosing($event)">
+  </app-create-modal>
 </section>
 
