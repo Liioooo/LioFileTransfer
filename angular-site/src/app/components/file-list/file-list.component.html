@@ -13,6 +13,8 @@
                     [mousePosition]="mousePosition"
                     [currentDir]="currentDir"
                     (openDir)="selectedFile($event)"
+                    (copy)="copyFile($event)"
+                    (cut)="cutFile($event)"
                     (showRenameModal)="showRenameModal($event)"
                     (showDeleteModal)="showDeleteModal($event)">
   </app-file-options>
@@ -20,8 +22,10 @@
                     [file]="fileToShowOptions"
                     [mousePosition]="mousePosition"
                     [currentDir]="currentDir"
-                    (reloadFiles)="reloadFiles()"
-                    (createDirFile)="showCreateModal()">
+                    [clipboard]="clipboard"
+                    (reloadFiles)="mapFiles()"
+                    (createDirFile)="showCreateModal()"
+                    (pastedFile)="reloadAfterPaste($event)">
   </app-dir-options>
   <app-file-rename-modal *ngIf="showingRenameModal"
                          [file]="fileToShowOptions"

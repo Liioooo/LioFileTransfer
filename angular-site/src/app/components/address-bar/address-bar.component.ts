@@ -1,42 +1,39 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'app-address-bar',
   templateUrl: './address-bar.component.html',
   styleUrls: ['./address-bar.component.scss']
 })
-export class AddressBarComponent implements OnInit {
+export class AddressBarComponent {
 
     @Input()
     public currentDir: string;
 
     @Output()
-    public pathInBarChange: EventEmitter<string> = new EventEmitter<string>();
+    public pathInBarChange = new EventEmitter<string>();
 
     @Output()
-    public reload: EventEmitter<any> = new EventEmitter<any>();
+    public reload = new EventEmitter<any>();
 
     @Output()
-    public clickedForwardBackward: EventEmitter<boolean> = new EventEmitter<boolean>();
+    public clickedForwardBackward = new EventEmitter<boolean>();
 
     constructor() { }
 
-    ngOnInit() {
-    }
-
-    public pathInBarChanged() {
+    public pathInBarChanged(): void {
       this.pathInBarChange.emit(this.currentDir);
     }
 
-    public clickedForward() {
+    public clickedForward(): void {
       this.clickedForwardBackward.emit(true);
     }
 
-    public clickedBackwards() {
+    public clickedBackwards(): void {
       this.clickedForwardBackward.emit(false);
     }
 
-    public reloadClicked() {
+    public reloadClicked(): void {
         this.reload.emit();
     }
 

@@ -9,10 +9,10 @@ import {Title} from '@angular/platform-browser';
 export class FileExplorerComponent implements OnInit {
 
   public currentDir: string;
-  private history: Array<string> = [];
-  private currentHistoryPos: number = 0;
+  private history: string[] = [];
+  private currentHistoryPos = 0;
 
-  public relaodRequestForListFiles = true;
+  public reloadRequestForListFiles = true;
 
   constructor(private title: Title) {
     this.currentDir = '/';
@@ -23,24 +23,24 @@ export class FileExplorerComponent implements OnInit {
     this.history.push(this.currentDir);
   }
 
-  public pathInBarChanged(newDir: string) {
+  public pathInBarChanged(newDir: string): void {
       this.currentDir = newDir;
       this.currentHistoryPos++;
       this.history[this.currentHistoryPos] = this.currentDir;
   }
 
-  public reloadFiles() {
-      this.relaodRequestForListFiles = !this.relaodRequestForListFiles;
+  public reloadFiles(): void {
+      this.reloadRequestForListFiles = !this.reloadRequestForListFiles;
   }
 
-  public selectedNewDir(newDir: string) {
+  public selectedNewDir(newDir: string): void {
       this.currentDir = this.currentDir + '/' + newDir;
       this.currentDir = this.currentDir.replace('//', '/');
       this.currentHistoryPos++;
       this.history[this.currentHistoryPos] = this.currentDir;
   }
 
-  public clickedForwardBackward(direction: boolean) {
+  public clickedForwardBackward(direction: boolean): void {
     if(direction) { //forward
         if(this.currentHistoryPos !== this.history.length - 1) {
             this.currentHistoryPos++;

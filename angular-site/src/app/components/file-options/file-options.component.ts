@@ -7,16 +7,22 @@ import {FileService} from '../../services/file.service';
   templateUrl: './file-options.component.html',
   styleUrls: ['./file-options.component.scss']
 })
-export class FileOptionsComponent implements OnInit {
+export class FileOptionsComponent {
 
     @Output()
-    public openDir: EventEmitter<FileEntry> = new EventEmitter<FileEntry>();
+    public openDir = new EventEmitter<FileEntry>();
 
     @Output()
-    public showRenameModal: EventEmitter<FileEntry> = new EventEmitter<FileEntry>();
+    public showRenameModal = new EventEmitter<FileEntry>();
 
     @Output()
-    public showDeleteModal: EventEmitter<FileEntry> = new EventEmitter<FileEntry>();
+    public showDeleteModal = new EventEmitter<FileEntry>();
+
+    @Output()
+    public copy = new EventEmitter<FileEntry>();
+
+    @Output()
+    public cut = new EventEmitter<FileEntry>();
 
     @Input()
     public file: FileEntry;
@@ -29,23 +35,29 @@ export class FileOptionsComponent implements OnInit {
 
     constructor(private files: FileService) { }
 
-    ngOnInit() {
-    }
-
-    openDirClick() {
+    public openDirClick() {
         this.openDir.emit(this.file);
     }
 
-    downloadFileClick() {
+    public downloadFileClick() {
       this.files.downloadFile((this.currentDir + '/' + this.file.file).replace('//', '/'));
     }
 
-    renameFileClick() {
+    public renameFileClick() {
         this.showRenameModal.emit(this.file);
     }
 
-    deleteFileClick() {
+    public deleteFileClick() {
         this.showDeleteModal.emit(this.file);
+    }
+
+    public copyClick() {
+        this.copy.emit(this.file);
+    }
+
+    public cutClick() {
+        this.cut.emit(this.file);
+
     }
 
 }

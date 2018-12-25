@@ -2,7 +2,7 @@
   <button *ngIf="file.type === 'dir'" (click)="openDirClick()">Open</button>
   <button *ngIf="file.type === 'file'" (click)="downloadFileClick()">Download</button>
   <button (click)="renameFileClick()">Rename</button>
-  <button>Copy</button>
-  <button>Cut</button>
+  <button (click)="copyClick()">Copy</button>
+  <button (click)="cutClick()">Cut</button>
   <button (click)="deleteFileClick()">Delete</button>
 </div>

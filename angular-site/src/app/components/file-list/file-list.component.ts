@@ -5,6 +5,7 @@ import {map, tap} from 'rxjs/operators';
 import {MousePosition} from '../../models/MousePosition';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
 import {Title} from '@angular/platform-browser';
+import {Clipboard} from '../../models/Clipboard';
 
 @Component({
   selector: 'app-file-list',
@@ -14,7 +15,7 @@ import {Title} from '@angular/platform-browser';
 export class FileListComponent implements OnInit, OnChanges {
 
     @Output()
-    public selectedNewDir: EventEmitter<string> = new EventEmitter<string>();
+    public selectedNewDir = new EventEmitter<string>();
 
     @Input()
     currentDir: string;
@@ -37,6 +38,11 @@ export class FileListComponent implements OnInit, OnChanges {
 
     public windowHeight: number;
 
+    public clipboard: Clipboard = {
+        file: null,
+        copyCut: null
+    };
+
     constructor(private filesService: FileService, private title: Title) { }
 
     ngOnInit() {
@@ -50,7 +56,7 @@ export class FileListComponent implements OnInit, OnChanges {
       }
     }
 
-    private mapFiles() {
+    public mapFiles(): void {
         this.title.setTitle(this.currentDir);
         this.showingDirMenu = false;
         this.showingFileMenu = false;
@@ -60,20 +66,26 @@ export class FileListComponent implements OnInit, OnChanges {
         );
     }
 
+    public reloadAfterPaste(reload: boolean): void {
+        if(reload) {
+            this.mapFiles();
+        }
+    }
+
     public selectedFile(file: FileEntry) {
         if(file.type === 'dir') {
             this.selectedNewDir.emit(file.file);
         }
     }
 
-    public showFileMenu(file: FileEntry, mousePosition: MousePosition) {
+    public showFileMenu(file: FileEntry, mousePosition: MousePosition): void {
         this.showingDirMenu = false;
         this.fileToShowOptions = file;
         this.mousePosition = mousePosition;
         this.showingFileMenu = true;
     }
 
-    public clickedOnFileList(mouseEvent: MouseEvent) {
+    public clickedOnFileList(mouseEvent: MouseEvent): void {
         mouseEvent.preventDefault();
         let showingDirMenu = false;
         const targets = document.getElementsByClassName('clickTargetDirOptions');
@@ -95,27 +107,27 @@ export class FileListComponent implements OnInit, OnChanges {
         }
     }
 
-    hideAllMenus() {
+    public hideAllMenus(): void {
         this.showingFileMenu = false;
         this.showingDirMenu = false;
     }
 
-    public showRenameModal(file: FileEntry) {
+    public showRenameModal(file: FileEntry): void {
         this.showingRenameModal = true;
         this.fileToShowOptions = file;
     }
 
-    public showDeleteModal(file: FileEntry) {
+    public showDeleteModal(file: FileEntry): void {
         this.showingDeleteModal = true;
         this.fileToShowOptions = file;
     }
 
-    public showCreateModal() {
+    public showCreateModal(): void {
         this.showingCreateModal = true;
 
     }
 
-    public modalClosing(reload: boolean) {
+    public modalClosing(reload: boolean): void {
         this.showingRenameModal = false;
         this.showingDeleteModal = false;
         this.showingCreateModal = false;
@@ -124,7 +136,13 @@ export class FileListComponent implements OnInit, OnChanges {
         }
     }
 
-    public reloadFiles() {
-        this.mapFiles();
+    public copyFile(file: FileEntry): void {
+        this.clipboard.file = (this.currentDir + '/' + file.file).replace('//', '/');
+        this.clipboard.copyCut = 'copy';
+    }
+
+    public cutFile(file: FileEntry): void {
+        this.clipboard.file = (this.currentDir + '/' + file.file).replace('//', '/');
+        this.clipboard.copyCut = 'cut';
     }
 }

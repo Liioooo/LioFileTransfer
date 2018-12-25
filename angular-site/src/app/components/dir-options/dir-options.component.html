@@ -1,4 +1,5 @@
 <div [style.left]="mousePosition.x + 'px'" [style.top]="mousePosition.y + 'px'">
   <button (click)="newDirFileClicked()">New File/Directory</button>
+  <button *ngIf="clipboard.file !== null" (click)="pasteFile()">Paste</button>
   <button (click)="reloadFilesClicked()">Reload</button>
 </div>

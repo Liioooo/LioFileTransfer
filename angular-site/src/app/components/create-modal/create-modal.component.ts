@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FileService} from '../../services/file.service';
 
 @Component({
@@ -6,11 +6,11 @@ import {FileService} from '../../services/file.service';
   templateUrl: './create-modal.component.html',
   styleUrls: ['./create-modal.component.scss']
 })
-export class CreateModalComponent implements OnInit {
+export class CreateModalComponent {
 
 
     @Output()
-    public closingModal: EventEmitter<boolean> = new EventEmitter<boolean>();
+    public closingModal = new EventEmitter<boolean>();
 
     @Input()
     public currentDir: string;
@@ -20,10 +20,7 @@ export class CreateModalComponent implements OnInit {
 
     constructor(private filesService: FileService) { }
 
-    ngOnInit() {
-    }
-
-    closeModalSave() {
+    public closeModalSave(): void {
         let _name = (this.currentDir + '/' + this.name).replace('//', '/');
         this.filesService.create(_name).subscribe(data => {
             if(data['error'] === 'null') {
@@ -35,14 +32,14 @@ export class CreateModalComponent implements OnInit {
         });
     }
 
-    closeModalClickedOutside(event: MouseEvent) {
+    public closeModalClickedOutside(event: MouseEvent): void {
         if(event.target == document.getElementById('modal')) {
             this.closingModal.emit(false);
             this.errorCreating = false;
         }
     }
 
-    closeModalCancel() {
+    public closeModalCancel(): void {
         this.closingModal.emit(false);
         this.errorCreating = false;
     }

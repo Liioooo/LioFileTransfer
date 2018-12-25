@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Title} from '@angular/platform-browser';
 import {UserService} from '../../services/user.service';
 import {Router} from '@angular/router';
@@ -11,22 +11,22 @@ import {Router} from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  loginForm: FormGroup;
-  submitted = false;
+  public loginForm: FormGroup;
+  public submitted = false;
 
   constructor(private title: Title, private user: UserService, private router: Router) { }
 
   ngOnInit() {
-    this.title.setTitle('LioFileTransfer - Login');
+      this.title.setTitle('LioFileTransfer - Login');
       this.loginForm = new FormGroup({
          username: new FormControl('', Validators.required),
          password: new FormControl('', Validators.required)
       });
   }
 
-    get form() { return this.loginForm.controls; }
+    public get form() { return this.loginForm.controls; }
 
-    handleSubmitClick() {
+    public handleSubmitClick(): void {
         this.submitted = true;
 
         if (this.loginForm.invalid) {

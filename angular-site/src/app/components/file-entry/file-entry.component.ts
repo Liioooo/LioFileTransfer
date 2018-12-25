@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MousePosition} from '../../models/MousePosition';
 
 @Component({
@@ -6,23 +6,20 @@ import {MousePosition} from '../../models/MousePosition';
   templateUrl: './file-entry.component.html',
   styleUrls: ['./file-entry.component.scss']
 })
-export class FileEntryComponent implements OnInit {
+export class FileEntryComponent {
 
     @Output()
-    public selectedFile: EventEmitter<any> = new EventEmitter();
+    public selectedFile = new EventEmitter();
 
     @Output()
-    public showFileMenu: EventEmitter<MousePosition> = new EventEmitter<MousePosition>();
+    public showFileMenu = new EventEmitter<MousePosition>();
 
     @Input()
     public file: FileEntry;
 
     constructor() { }
 
-    ngOnInit() {
-    }
-
-    showContextMenu(mouseEvent: MouseEvent) {
+    public showContextMenu(mouseEvent: MouseEvent): void {
         mouseEvent.preventDefault();
         this.showFileMenu.emit({
             x: mouseEvent.clientX,
@@ -30,7 +27,7 @@ export class FileEntryComponent implements OnInit {
         });
     }
 
-    open() {
+    public open(): void {
         this.selectedFile.emit();
     }
 

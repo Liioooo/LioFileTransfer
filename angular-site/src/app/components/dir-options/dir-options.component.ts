@@ -1,18 +1,23 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
 import {MousePosition} from '../../models/MousePosition';
+import {Clipboard} from '../../models/Clipboard';
+import {FileService} from '../../services/file.service';
 
 @Component({
   selector: 'app-dir-options',
   templateUrl: './dir-options.component.html',
   styleUrls: ['./dir-options.component.scss']
 })
-export class DirOptionsComponent implements OnInit {
+export class DirOptionsComponent implements OnDestroy{
 
     @Output()
-    public reloadFiles: EventEmitter<any> = new EventEmitter<any>();
+    public reloadFiles = new EventEmitter<any>();
 
     @Output()
-    public createDirFile: EventEmitter<any> = new EventEmitter<any>();
+    public createDirFile = new EventEmitter<any>();
+
+    @Output()
+    public pastedFile = new EventEmitter<boolean>();
 
     @Input()
     public file: FileEntry;
@@ -23,16 +28,36 @@ export class DirOptionsComponent implements OnInit {
     @Input()
     public mousePosition: MousePosition;
 
-    constructor() { }
+    @Input()
+    public clipboard: Clipboard;
 
-    ngOnInit() {
+    private hasPastedFile = false;
+
+    constructor(private files: FileService) { }
+
+    ngOnDestroy(): void {
+        this.pastedFile.emit(this.hasPastedFile);
     }
 
-    reloadFilesClicked() {
+    public reloadFilesClicked(): void {
         this.reloadFiles.emit();
     }
 
-    newDirFileClicked() {
-        this.createDirFile.emit();
+    public newDirFileClicked(): void {
+        this.createDirFile.emit(this.hasPastedFile);
+    }
+
+    public pasteFile(): void {
+        if (this.clipboard.file === null) return;
+        this.hasPastedFile = true;
+        if(this.clipboard.copyCut == 'copy') {
+            this.files.copy(this.clipboard.file, this.currentDir).subscribe(data => {
+                this.clipboard.file = null;
+            });
+        } else {
+            this.files.move(this.clipboard.file, this.currentDir).subscribe(data => {
+                this.clipboard.file = null;
+            });
+        }
     }
 }
