@@ -33,6 +33,7 @@ export class UserService {
 
     public setUserLoggedOut() {
         sessionStorage.removeItem('loggedIn');
+        this.isLoggedIn();
     }
 
     public isLoggedIn(): boolean {

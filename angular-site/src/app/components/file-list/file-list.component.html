@@ -1,13 +1,15 @@
 <section class="clickTargetDirOptions" (click)="hideAllMenus()" (contextmenu)="clickedOnFileList($event)" [style.height]="windowHeight - 67 + 'px'">
-  <p *ngIf="(files | async)?.length === 0">This directory is empty!</p>
   <p *ngIf="showDirError">Error reading directory, it may not exist!</p>
-  <article class="clickTargetDirOptions" *ngIf="(files | async)?.length !== 0">
-    <app-file-entry *ngFor="let file of (files | async)"
-                    [file]=file
-                    (selectedFile)="selectedFile(file)"
-                    (showFileMenu)="showFileMenu(file, $event)">
-    </app-file-entry>
-  </article>
+  <div *ngIf="(files | async) as _files">
+    <p *ngIf="_files.length === 0">This directory is empty!</p>
+    <article class="clickTargetDirOptions" *ngIf="_files.length !== 0">
+      <app-file-entry *ngFor="let file of _files"
+                      [file]=file
+                      (selectedFile)="selectedFile(file)"
+                      (showFileMenu)="showFileMenu(file, $event)">
+      </app-file-entry>
+    </article>
+  </div>
   <app-file-options *ngIf="showingFileMenu"
                     [file]="fileToShowOptions"
                     [mousePosition]="mousePosition"
@@ -42,4 +44,4 @@
                     (closingModal)="modalClosing($event)">
   </app-create-modal>
 </section>
-
+<input id="fileUploadInput" (change)="fileInInputChanged($event)" type="file">

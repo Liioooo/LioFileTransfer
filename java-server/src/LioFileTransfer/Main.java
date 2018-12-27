@@ -4,6 +4,7 @@ package LioFileTransfer;
 import LioFileTransfer.Handlers.ApiHandler;
 import LioFileTransfer.Handlers.DownloadHandler;
 import LioFileTransfer.Handlers.StaticFileHandler;
+import LioFileTransfer.Handlers.UploadHandler;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
@@ -28,6 +29,7 @@ public class Main {
             server.createContext("/", new StaticFileHandler());
             server.createContext("/api", new ApiHandler());
             server.createContext("/download", new DownloadHandler());
+            server.createContext("/upload", new UploadHandler());
             server.start();
             System.out.println("Successfully started Webserver at port " + port);
             System.out.println("Go to the IP Address of this Computer too reach the server");

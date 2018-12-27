@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Observable} from 'rxjs';
 import {FileService} from '../../services/file.service';
 import {map, tap} from 'rxjs/operators';
@@ -43,7 +43,7 @@ export class FileListComponent implements OnInit, OnChanges {
         copyCut: null
     };
 
-    constructor(private filesService: FileService, private title: Title) { }
+    constructor(private filesService: FileService, private title: Title, private _changeDetectionRef: ChangeDetectorRef) { }
 
     ngOnInit() {
         this.mapFiles();
@@ -69,6 +69,7 @@ export class FileListComponent implements OnInit, OnChanges {
     public reloadAfterPaste(reload: boolean): void {
         if(reload) {
             this.mapFiles();
+            this._changeDetectionRef.detectChanges();
         }
     }
 
@@ -144,5 +145,14 @@ export class FileListComponent implements OnInit, OnChanges {
     public cutFile(file: FileEntry): void {
         this.clipboard.file = (this.currentDir + '/' + file.file).replace('//', '/');
         this.clipboard.copyCut = 'cut';
+    }
+
+    public fileInInputChanged(event: any): void {
+        const file: File = event.target.files[0];
+        if(!file) return;
+        const fileName = (this.currentDir + '/' + file.name).replace('//', '/');
+        this.filesService.uploadFile(fileName,file).subscribe(data => {
+            this.mapFiles();
+        });
     }
 }

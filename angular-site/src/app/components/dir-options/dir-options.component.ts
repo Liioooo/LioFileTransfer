@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
 import {MousePosition} from '../../models/MousePosition';
 import {Clipboard} from '../../models/Clipboard';
 import {FileService} from '../../services/file.service';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-dir-options',
@@ -33,7 +34,7 @@ export class DirOptionsComponent implements OnDestroy{
 
     private hasPastedFile = false;
 
-    constructor(private files: FileService) { }
+    constructor(private files: FileService, private user: UserService) { }
 
     ngOnDestroy(): void {
         this.pastedFile.emit(this.hasPastedFile);
@@ -59,5 +60,14 @@ export class DirOptionsComponent implements OnDestroy{
                 this.clipboard.file = null;
             });
         }
+    }
+
+    public uploadFile(): void {
+        const fileInput = document.getElementById('fileUploadInput');
+        fileInput.click();
+    }
+
+    public logoutClick() {
+        this.user.setUserLoggedOut();
     }
 }

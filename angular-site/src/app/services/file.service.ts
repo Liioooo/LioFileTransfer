@@ -63,6 +63,10 @@ export class FileService {
         });
     }
 
+    public uploadFile(fileName: string, file: File): Observable<any> {
+        return this.sendRequest('/upload' + fileName, file);
+    }
+
     public downloadFile(file: string): void {
         let element = document.createElement('a');
         element.setAttribute('href', '/download' + file);
