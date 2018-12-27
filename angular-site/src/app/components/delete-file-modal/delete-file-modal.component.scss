@@ -14,18 +14,35 @@
 
     .modal-content {
         margin: auto;
-        width: 80%;
+        width: 30%;
+
+        @include mediaQuery("desktop", max) {
+            width: 40%;
+        }
+
+        @include mediaQuery("tablet", max) {
+            width: 60%;
+        }
+
+        @include mediaQuery("phablet", max) {
+            width: 70%;
+        }
+
+        @include mediaQuery("phone-wide", max) {
+            width: 80%;
+        }
 
         .modal-header {
             background-color: $blue;
             border-top-left-radius: 15px;
             border-top-right-radius: 15px;
-            padding: 2px 16px;
+            padding: 0 10px;
             display: grid;
             grid-template-columns: auto 50px;
 
             h2 {
-                margin: 10px 0;
+                font-size: 20pt;
+                margin: 5px 0;
                 color: darken($grey, 20);
             }
 
@@ -44,8 +61,8 @@
         }
 
         .modal-body {
-            background-color: lighten($grey, 40);
-            padding: 20px;
+            background-color: $blue;
+            padding: 2px 10px;
 
             p {
                 margin: 0;
