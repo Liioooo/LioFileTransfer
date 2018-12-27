@@ -1,5 +1,6 @@
 package LioFileTransfer.Handlers;
 
+import LioFileTransfer.Authentication;
 import LioFileTransfer.Main;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -16,6 +17,10 @@ public class DownloadHandler implements HttpHandler {
         exchange.getResponseHeaders().set("Server", "LioFileTransferServer (Java)");
 
         String requestPath = exchange.getRequestURI().getPath();
+        if(!Authentication.isLoggedIn(exchange)) {
+            HandlerHelpers.sendError(exchange, 110);
+            return;
+        }
         try {
             byte[] file = Files.readAllBytes(Paths.get(Main.config.getConfigItemString("documentRoot") + requestPath.replace("/download", "")));
             exchange.sendResponseHeaders(200, file.length);

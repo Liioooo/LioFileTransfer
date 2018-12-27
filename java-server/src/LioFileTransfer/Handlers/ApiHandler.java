@@ -55,12 +55,7 @@ public class ApiHandler implements HttpHandler {
         for(Api api : apis) {
             if(api.getApiPath().equals(apiPath)) {
                 if(api.needsLogin()) {
-                    HashMap<String, String> cookies = new HashMap<>();
-                    for(String cookie : exchange.getRequestHeaders().getFirst("Cookie").split("; ")) {
-                        String[] cookieParts = cookie.split("=");
-                        cookies.put(cookieParts[0], cookieParts[1]);
-                    }
-                    if(!cookies.containsKey("token") || !Authentication.isLoggedIn(cookies.get("token"))) {
+                    if(!Authentication.isLoggedIn(exchange)) {
                         HandlerHelpers.sendError(exchange, 110);
                         return;
                     }

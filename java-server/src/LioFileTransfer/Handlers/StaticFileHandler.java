@@ -19,7 +19,12 @@ public class StaticFileHandler implements HttpHandler {
             requestPath = "/index.html";
         }
         try {
-            byte[] file = Files.readAllBytes(Paths.get("webDocs" + requestPath));
+            byte[] file;
+            if(Files.exists(Paths.get("webDocs" + requestPath))) {
+                file = Files.readAllBytes(Paths.get("webDocs" + requestPath));
+            } else {
+                file = Files.readAllBytes(Paths.get("webDocs/index.html"));
+            }
             exchange.getResponseHeaders().set("Content-Type", getContentType(requestPath));
             exchange.sendResponseHeaders(200, file.length);
             OutputStream os = exchange.getResponseBody();
