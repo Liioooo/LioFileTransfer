@@ -10,6 +10,7 @@ section {
   display: grid;
   grid-template-columns: 50px 50px 50px auto;
 
+
   i {
     width: 35px;
     height: 35px;
@@ -39,6 +40,10 @@ section {
     padding: 2px 5px;
     background-color: darken(#ffffff, 5);
     color: lighten(#000000, 30);
+
+    @include mediaQuery("phone", max) {
+      width: 90%;
+    }
 
     &:focus {
       box-shadow: 0 0 0 1pt $grey;

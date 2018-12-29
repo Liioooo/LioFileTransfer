@@ -7,6 +7,30 @@ div {
     width: 190px;
     border-radius: 2px;
 
+    @include mediaQuery("phone-wide", max) {
+        width: 100%;
+        left: 0 !important;
+        bottom: 0 !important;
+        top: auto !important;
+
+        :first-child {
+            border-top-right-radius: 0 !important;
+        }
+
+        :last-child {
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+
+        button {
+            padding: 8px !important;
+
+            &:hover {
+                background-color: lighten($grey, 60) !important;
+            }
+        }
+    }
+
     :first-child {
         border-top-right-radius: 8px;
     }
