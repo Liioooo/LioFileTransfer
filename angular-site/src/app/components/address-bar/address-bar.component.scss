@@ -41,7 +41,7 @@ section {
     background-color: darken(#ffffff, 5);
     color: lighten(#000000, 30);
 
-    @include mediaQuery("phone", max) {
+    @include mediaQuery("phone-wide", max) {
       width: 90%;
     }
 

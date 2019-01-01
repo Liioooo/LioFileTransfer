@@ -31,13 +31,13 @@ public class Main {
             server.createContext("/download", new DownloadHandler());
             server.createContext("/upload", new UploadHandler());
             server.start();
-            System.out.println("Successfully started Webserver at port " + port);
-            System.out.println("Go to the IP Address of this Computer too reach the server");
+            System.out.println("Successfully started webserver at port " + port);
+            System.out.println("Go to the IP Address of this computer to reach the server");
         } catch (InvalidTypeError e) {
             System.err.println("Invalid 'webserverPort' in config.json");
             System.exit(-1);
         } catch (IOException e) {
-            System.err.println("Error while creating Webserver");
+            System.err.println("Error while creating webserver");
             System.exit(-1);
         }
     }
